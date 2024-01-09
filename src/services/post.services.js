@@ -18,11 +18,12 @@ async function getAllPosts() {
   }
 }
 //get post by id
-async function getPostById(userId) {
+async function getPostById(post) {
   try {
-      let userPost = await Post.postsSchema.findById(userId);
+      let userPost = await Post.postsSchema.find( { $or: [ { '_id': post}, { 'slug': post } ] } );
       return userPost;
   } catch (error) {
+    console.log(error)
       return "Something went wrong";
   }
 }
@@ -63,6 +64,15 @@ async function getPostCountByUser(userId) {
       return {message: "Internal Server Error" };
   }
   
+}
+// function to get post using slugs
+async function getPostBySlug() {
+  try {
+      let userPost = await Post.postsSchema.findById();
+      return userPost;
+  } catch (error) {
+      return "Something went wrong";
+  }
 }
 module.exports = {
   createPost,

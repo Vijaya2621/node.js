@@ -1,0 +1,47 @@
+# Project Title
+
+CRUD demo
+
+---
+## Requirements
+
+To learn CRUD operations
+
+### Node
+Install node 
+version:v20.9.0
+
+If the installation was successful, you should be able to run the following command.
+
+    $ node --version
+    To check the version of node
+
+If nmp is installed
+
+    $ npm --version
+    To check the version of npm
+
+
+After this first command that should be run:
+
+$npm i
+
+## Install dependencies:
+    bcrypt: ^5.1.1,
+    dotenv: ^16.3.1,
+    express: ^4.18.2,
+    joi: ^17.11.0,
+    jsonwebtoken: ^9.0.2,
+    mongoose: ^8.0.3,
+    nodemon: ^3.0.2
+
+  $npm i express mongoose bcrypt nodemon jsonwebtoken joi vailidation dotenv
+
+also change script in package.json file include:
+"start":"nodemon mainfile"(in this project that is app.js)
+
+
+## Running the project
+
+    $ npm start 
+    $ npx nodemon

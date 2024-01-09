@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
 // const userSchema = require('./src/model/index')
 const app = express();
 const routes = require('./src/routes/index')
@@ -9,26 +10,21 @@ app.use(express.json());
 app.use(routes.userRoutes);
 app.use(routes.postsRoutes);
 
-app.listen(8080, () => {
-    console.log(`listening to the port:8080`)
-})
+const port = process.env.PORT || 8080;
 
-//database connection
-// mongoose.connect('mongodb://localhost:27017/user_crud_operation')
-// .then(() => {
-//     console.log("connected to user database ");
-// })
-mongoose.connect('mongodb://localhost:27017/posts_crud_operation')
-.then(() => {
-    console.log("connected to posts database ");
-})
-.catch((e) => {
-console.log("not connected");
-console.log(e);
-})
+app.listen(port, () => {
+    console.log(`Listening to the port: ${port}`);
+});
+  
+console.log("Database URI:", process.env.DATABASE_URI);
 
+mongoose.connect(process.env.DATABASE_URI)
+  .then(() => {
+    console.log("Connected to the database");
+  })
+  .catch((error) => {
+    console.error("Error connecting to the database:", error.message);
+  });
+   
 
-
-const title = "Hello World! How to Build a Website";
-const slug = slugify(title, { lower: true });
-console.log(slug);
+      

@@ -16,12 +16,19 @@ const postsSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
       },
+      updatedAt: {
+        type: Date,
+        default: Date.now,
+      },
     user:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', 
         required: true
-      }
-    
+      },
+    slug:{
+        type: String,
+        unique: true
+    }
 
 }) 
 const posts = mongoose.model('posts',postsSchema);
