@@ -2,7 +2,7 @@
 const jwt =require('jsonwebtoken');
 require('dotenv').config()
 async function verifyAccessToken(req, res, next) {
-    if (!req.headers['authorization']) return next("Unauthorized user");
+    if (!req.headers['authorization']) return res.status(400);
 
     const authHeader = req?.headers?.['authorization'];
     const bearerToken = authHeader.split(' ');
@@ -15,7 +15,7 @@ async function verifyAccessToken(req, res, next) {
     } catch (err) {
         let data = {
             message: err.message,
-        };
+        };    
         return res.status(401);  
     }
 }                                

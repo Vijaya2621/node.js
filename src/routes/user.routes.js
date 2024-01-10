@@ -16,5 +16,4 @@ router.delete('/deleteUser/:userId',verifyAccessToken, userController.userContro
 //update user
 router.put('/updateUser/:userId', verifyAccessToken, userController.userController.updateUser);
 
-
-module.exports = router
+module.exports = router       

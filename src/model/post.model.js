@@ -29,7 +29,7 @@ const postsSchema = mongoose.Schema({
         type: String,
         unique: true
     }
-
+   
 }) 
 const posts = mongoose.model('posts',postsSchema);
 module.exports = posts;

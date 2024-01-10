@@ -1,13 +1,14 @@
  const Post = require('../model/index');
-
-const createPost = async (postData) => {
+const mongoose = require('mongoose');
+async function  createPost(req, res) {
   try {
-    const newPost = new Post(postData);
-    return await newPost.Post.save();
-  } catch (error) {
-    throw error;
-  }
+    const newPost = await Post.postsSchema.create(req.body);
+    res.status(201).json(newPost);
+  } 
+  catch (error) {
+    return {message : "Post not created"}
 };
+}
 // get all posts
 async function getAllPosts() {
   try {
@@ -18,10 +19,40 @@ async function getAllPosts() {
   }
 }
 //get post by id
-async function getPostById(post) {
-  try {
-      let userPost = await Post.postsSchema.find( { $or: [ { '_id': post}, { 'slug': post } ] } );
-      return userPost;
+async function getPost(postData) {
+  try {                                               
+    const criteria = {};  
+    criteria.$or = [];
+
+    if(mongoose.Types.ObjectId.isValid(postData)) {
+      criteria.$or.push({ _id: postData })
+    }
+
+    criteria.$or.push({ slug: postData })
+    const post = await Post.postsSchema.findOne(criteria);
+    console.log(post)
+    if(post){
+      const slug =post.slug; 
+      const convertSlug = slug.replace(/ /g,"-");     
+      console.log(convertSlug);
+      post.slug = convertSlug;
+      await post.save();
+      
+      console.log('Updated Slug:', post.slug);
+      console.log('Post:', post);
+      return {
+        status : true,
+        message : 'success',
+        payload : post,
+      };
+    }
+    return {
+      status : false,
+      message : 'Not find any post',
+      payload : post,
+    };
+
+   
   } catch (error) {
     console.log(error)
       return "Something went wrong";
@@ -34,7 +65,7 @@ async function deletePost(userId) {
       if (!user) {
           return "Post not found or something went wrong";
       } else {
-          await Post.deleteOne({ _id: user._id });
+          await Post.postsSchema.deleteOne({ _id: user._id });
           return "Post deleted";
       }
   } catch (error) {
@@ -48,7 +79,7 @@ async function updatePost(userId, userPost) {
       if (!updatedPost) {
           return "User not found or something went wrong";
       } else {
-          return "User updated";
+          return "User updated"; 
       }
   } catch (error) {
       return "Something went wrong";
@@ -65,20 +96,11 @@ async function getPostCountByUser(userId) {
   }
   
 }
-// function to get post using slugs
-async function getPostBySlug() {
-  try {
-      let userPost = await Post.postsSchema.findById();
-      return userPost;
-  } catch (error) {
-      return "Something went wrong";
-  }
-}
 module.exports = {
   createPost,
   getAllPosts,
   deletePost,
   updatePost,
-  getPostById,   
+  getPost,   
   getPostCountByUser
 };

@@ -26,12 +26,8 @@ role:{
     enum: ['admin', 'editor'],
     default: 'editor'
 },
-// posts: [{
-//     type: mongoose.Schema.Types.ObjectId,
-//     ref: 'Post',
-//   }]
 });
-
+    
 //exproting schema
 const user = mongoose.model('user',userSchema);
 module.exports = user;

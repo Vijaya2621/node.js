@@ -5,5 +5,6 @@ const createUserSchema = Joi.object({
   email: Joi.string().email().required().trim(),
   phone: Joi.string().required().trim(),
   password: Joi.string().required().min(6),
+  role:Joi.string()
 });
-module.exports = {createUserSchema};   
+module.exports = {createUserSchema};                            

@@ -11,8 +11,8 @@ async function createUser( req, res) {
         return res.status(400).json({ error: error.details.map((err) => err.message) });
     }
     console.log(req.body)
-    const { email, userName, password } = req.body
-    console.log(req.body) 
+    const {role} = req.body;
+    console.log(role) 
         try {  
         let isUserAlreadyExist = await userSchema.findOne({ email: req.body.email});
   if (isUserAlreadyExist){
@@ -71,7 +71,7 @@ async function deleteUser(userId) {
         if (!user) {
             return "User not found or something went wrong";
         } else {
-            await userModel.deleteOne({ _id: user._id });
+            await userSchema.deleteOne({ _id: user._id });
             return "User deleted";
         }
     } catch (error) {
