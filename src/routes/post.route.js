@@ -17,6 +17,14 @@ router.delete('/deletePost/:userId', postsController.postController.deletePost);
 // //update user
 router.put('/updatePost/:userId', postsController.postController.updatePost);
 
+//
+router.all('*', (req, res)=>{
+    res.status(404).json({
+       status :"fail",
+       mesasge : `cannot find ${req.originalUrl} on the server!`  
+    })
+    })
+
 module.exports = router;
 
      

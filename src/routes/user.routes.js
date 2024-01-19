@@ -16,4 +16,11 @@ router.delete('/deleteUser/:userId',verifyAccessToken, userController.userContro
 //update user
 router.put('/updateUser/:userId', verifyAccessToken, userController.userController.updateUser);
 
+router.all('*', (req, res)=>{
+res.status(404).json({
+   status :"fail",
+   mesasge : `cannot find ${req.originalUrl} on the server!`  
+})
+})
+
 module.exports = router       

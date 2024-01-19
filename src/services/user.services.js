@@ -2,10 +2,11 @@ const {userSchema}  = require('../model/index');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const validation = require('../validations/index')
+const {response}= require('../interseptor/interseptor')
 require('dotenv').config()
 //create a user
 async function createUser( req, res) {
-    const { error } = validation.createUserSchema.validate(req.body);
+    const { error } = validation.userSchema.validate(req.body);
     console.log(req.body)
     if (error) {
         return res.status(400).json({ error: error.details.map((err) => err.message) });
@@ -44,14 +45,18 @@ async function loginUser(req, res){
         if(user && comparepassword){
             const token = jwt.sign({userId:user._id, email: user.email, userName:user.userName}, myToken, 
             { expiresIn: '1h' });
-        return {message :"login successfull", token};
+            const errorRes={
+                token:token,
+                message:"sucess"
+            }
+        return await abc(result,200)
         }
         else{
             return res.status(401).json({ message: 'login failed' });
         }
     }
     catch(error){
-        return{message: "something went wrong"}  
+        return{message: "something went wrong",error}  
     }
 } 
 // function to read details of all users
